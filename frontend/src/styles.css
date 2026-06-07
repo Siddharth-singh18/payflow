@@ -1,0 +1,138 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --pf-page-bg: #eef5ff;
+    --pf-text: #0f172a;
+    --pf-card-bg: #ffffff;
+    --pf-card-border: rgba(226, 232, 240, 0.9);
+    --pf-sidebar-bg: rgba(255, 255, 255, 0.95);
+    --pf-shadow-card: 0 8px 30px rgba(15, 23, 42, 0.04);
+  }
+
+  .dark {
+    --pf-page-bg: #0a0b14;
+    --pf-text: #f8fafc;
+    --pf-card-bg: #111420;
+    --pf-card-border: #1e293b;
+    --pf-sidebar-bg: #0b1120;
+    --pf-shadow-card: 0 8px 30px rgba(0, 0, 0, 0.28);
+  }
+
+  html {
+    @apply antialiased;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--pf-page-bg);
+    color: var(--pf-text);
+    @apply transition-colors duration-300;
+  }
+
+  ::selection {
+    @apply bg-teal-200 text-teal-950;
+  }
+
+  .dark ::selection {
+    @apply bg-teal-800 text-teal-50;
+  }
+}
+
+@layer components {
+  .pf-page {
+    min-height: 100vh;
+    background-color: var(--pf-page-bg);
+    color: var(--pf-text);
+  }
+
+  .pf-card {
+    @apply rounded-2xl;
+    background-color: var(--pf-card-bg);
+    border: 1px solid var(--pf-card-border);
+    box-shadow: var(--pf-shadow-card);
+  }
+
+  .pf-input {
+    @apply h-12 w-full rounded-xl border px-4 text-sm outline-none transition focus:border-[#0f766e] focus:ring-4 focus:ring-teal-100/80 dark:focus:ring-teal-900/35;
+    background-color: var(--pf-card-bg);
+    border-color: var(--pf-card-border);
+    color: var(--pf-text);
+  }
+
+  .pf-input::placeholder {
+    @apply text-slate-400 dark:text-slate-500;
+  }
+
+  .pf-select {
+    @apply pf-input cursor-pointer appearance-none bg-[length:1rem] bg-[right_0.75rem_center] bg-no-repeat pr-10;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  }
+
+  .pf-btn-primary {
+    @apply inline-flex h-12 w-full items-center justify-center gap-2 rounded-xl px-5 text-sm font-semibold text-white transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60;
+    background-image: linear-gradient(to right, #065f56, #0f766e, #0d9488);
+    box-shadow: 0 12px 30px rgba(15, 118, 110, 0.28);
+  }
+
+  .pf-btn-ghost {
+    @apply inline-flex h-11 items-center justify-center gap-2 rounded-xl border px-4 text-sm font-semibold shadow-sm transition hover:border-[#0f766e]/40 hover:text-[#0f766e] dark:hover:border-teal-400/30 dark:hover:text-teal-300;
+    background-color: var(--pf-card-bg);
+    border-color: var(--pf-card-border);
+    color: var(--pf-text);
+  }
+
+  .pf-wallet-card {
+    @apply relative overflow-hidden rounded-2xl p-7 text-white;
+    background-image: linear-gradient(135deg, #004a50 0%, #087b70 45%, #009f86 100%);
+    box-shadow: 0 20px 50px rgba(4, 120, 104, 0.32);
+  }
+
+  .pf-nav-active {
+    @apply text-[#0f766e] dark:text-white;
+    background: linear-gradient(to right, #f0fdfa, #ecfeff);
+    box-shadow: 0 14px 35px rgba(20, 184, 166, 0.12);
+  }
+
+  .dark .pf-nav-active {
+    background: linear-gradient(to right, #0f4c47, #064e3b);
+    box-shadow: 0 10px 24px rgba(15, 118, 110, 0.35);
+  }
+
+  .pf-nav-item {
+    @apply flex h-12 items-center gap-4 rounded-xl px-4 text-[15px] font-medium text-slate-600 transition hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-[#1e293b] dark:hover:text-white;
+  }
+
+  .pf-action-tile {
+    @apply flex min-h-[110px] items-center gap-4 rounded-2xl border p-5 transition hover:-translate-y-0.5 hover:border-[#0f766e]/50 dark:hover:border-teal-500/60;
+    background-color: var(--pf-card-bg);
+    border-color: var(--pf-card-border);
+    box-shadow: var(--pf-shadow-card);
+  }
+
+  .pf-action-tile:hover {
+    box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+  }
+
+  .dark .pf-action-tile:hover {
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+  }
+}
+
+:root {
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+  color-scheme: light;
+}
+
+.dark {
+  color-scheme: dark;
+}
