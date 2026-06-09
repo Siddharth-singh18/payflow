@@ -8,6 +8,7 @@ import { splitRouter } from './splitRoutes.js';
 import { transactionRouter } from './transactionRoutes.js';
 import { walletRouter } from './walletRoutes.js';
 import { webhookRouter } from './webhookRoutes.js';
+import { paymentRouter } from './paymentRoutes.js';
 
 export const apiRouter = Router();
 
@@ -20,3 +21,4 @@ apiRouter.use('/notifications', notificationRouter);
 apiRouter.use('/schedule', scheduleRouter);
 apiRouter.use('/split', splitRouter);
 apiRouter.use('/webhooks', webhookRouter);
+apiRouter.use('/payment', paymentRouter);
