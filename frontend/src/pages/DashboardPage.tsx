@@ -25,6 +25,7 @@ import {
 } from 'recharts';
 import { getTransactions } from '../api/transactions';
 import { getWalletBalance } from '../api/wallet';
+import { apiClient } from '../api/client';
 import { AppLayout } from '../components/AppLayout';
 import { Skeleton } from '../components/Skeleton';
 import { TransactionRow } from '../components/TransactionRow';
@@ -88,6 +89,45 @@ export const DashboardPage = () => {
       setWallet(walletQuery.data);
     }
   }, [setWallet, walletQuery.data]);
+
+  const handleAddMoney = async () => {
+    try {
+      const response = await apiClient.post('/payment/create-order');
+      const order = response.data.order;
+
+      const options = {
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID || '',
+        amount: order.amount,
+        currency: order.currency,
+        name: 'PayFlow',
+        description: 'Add Money to Wallet',
+        order_id: order.id,
+        handler: function (res: any) {
+          console.log('Payment success:', res);
+          alert(`Payment Successful! Payment ID: ${res.razorpay_payment_id}`);
+          // TODO: Verify payment via backend webhook or endpoint
+        },
+        prefill: {
+          name: 'PayFlow User',
+          email: 'user@payflow.com',
+          contact: '9999999999'
+        },
+        theme: {
+          color: '#0f766e'
+        }
+      };
+
+      const rzp = new (window as any).Razorpay(options);
+      rzp.on('payment.failed', function (res: any) {
+        console.error('Payment failed:', res.error);
+        alert(`Payment Failed: ${res.error.description}`);
+      });
+      rzp.open();
+    } catch (error) {
+      console.error('Error initiating payment:', error);
+      alert('Could not initiate payment. Please try again.');
+    }
+  };
 
   return (
     <AppLayout
@@ -167,7 +207,7 @@ export const DashboardPage = () => {
               <span className="text-sm font-medium leading-none">›</span>
             </span>
           </Link>
-          <Link className="group pf-action-tile" to="/dashboard">
+          <button className="group pf-action-tile text-left" onClick={handleAddMoney} type="button">
             <span className="grid h-[50px] w-[50px] place-items-center rounded-xl bg-lime-50 text-lime-700 shadow-inner dark:bg-[#3f6212]/30 dark:text-[#d9f99d]">
               <Plus size={22} />
             </span>
@@ -180,7 +220,7 @@ export const DashboardPage = () => {
             <span className="grid h-7 w-7 place-items-center rounded-full border border-slate-200 text-slate-400 transition group-hover:border-payflow-teal group-hover:bg-payflow-teal group-hover:text-white dark:border-slate-700 dark:group-hover:border-payflow-teal">
               <span className="text-sm font-medium leading-none">›</span>
             </span>
-          </Link>
+          </button>
           <Link className="group pf-action-tile" to="/qr">
             <span className="grid h-[50px] w-[50px] place-items-center rounded-xl bg-orange-50 text-payflow-coral shadow-inner dark:bg-orange-950/50 dark:text-orange-300">
               <QrCode size={22} />
